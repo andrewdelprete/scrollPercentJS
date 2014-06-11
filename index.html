@@ -1,0 +1,80 @@
+<html>
+<head>
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+    }
+    #container {
+        height: 5000px;
+    }
+
+    #percentage {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        margin-left: -125px;
+        margin-top: -50px;
+        font-family: Avenir, "Myriad Pro", sans-serif;
+        font-size: 75px;
+        width: 250px;
+        text-align:center;
+    }    
+
+    #scroll {
+        font-size: 20px;
+        position: fixed;
+        text-align: center;
+        font-family: Avenir, "Myriad Pro", sans-serif;
+        margin-top: 2%;
+        width: 100%;
+    }
+
+    #circle {
+        position: fixed;
+        left: 50%;
+        margin-left: -200px;
+        margin-top: -100px;
+        top: 50%;
+    }
+</style>
+</head>
+<body>
+<canvas id="circle"></canvas>
+<div id="container">
+    <div id="scroll">Scroll! :-D</div>
+    <div id="percentage">0%</div>
+</div>
+<script src="scrollPercent.min.js"></script>
+<script>
+
+window.onscroll = function(event) {
+    var scrollPercentObj = new scrollPercent;
+    var percentage = scrollPercentObj.init();
+
+    // Number
+    document.getElementById('percentage').innerHTML = percentage + '%';
+
+    // Background
+    document.body.setAttribute("style", "background-color: rgba(0, 0, 255, " + percentage / 100 + ")");
+
+    // Circle
+    var circle = document.getElementById("circle");
+    circle.parentNode.removeChild(circle); // Remove circle for clean canvas
+
+    circle = document.createElement('canvas');
+    circle.setAttribute('id', 'circle');
+    circle.setAttribute('height', '200');
+    circle.setAttribute('width', '400');
+    document.body.appendChild(circle);
+
+    var ctx = circle.getContext("2d");
+    ctx.beginPath();
+
+    ctx.arc(200, 100,98.5, 0, (percentage / 50) * Math.PI);
+    ctx.lineWidth = 2;
+    ctx.stroke();
+};    
+</script>
+</body>
+</html>
